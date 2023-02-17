@@ -1,13 +1,14 @@
 var userService = require("./userServices");
 
 var createUserControllerFunc = async (req, res) => {
+  var result = null;
   try {
-    var status = await userService.createUserDBService(req.body);
-    console.log(status);
-    if (status) {
-      res.send({ status: true, message: "Usuario creado" });
+    result = await userService.createUserDBService(req.body);
+
+    if (result.status) {
+      res.send({ status: true, message: result.msg });
     } else {
-      res.send({ status: false, message: "Error creando usuario" });
+      res.send({ status: false, message: result.msg });
     }
   } catch (err) {
     console.log(err);
