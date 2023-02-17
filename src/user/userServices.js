@@ -145,10 +145,10 @@ module.exports.updateUser = (userDetails) => {
         } else {
           if (result != undefined && result != null) {
             console.log(result);
-            var encrypt = encryptor.encrypt(result.password);
+            var decrypted = encryptor.encrypt(result.password);
             userModel.updateOne(
               { email: userDetails.email },
-              { password: encrypt }
+              { password: decrypted }
             );
             if (result.email == userDetails.email) {
               resolve({
