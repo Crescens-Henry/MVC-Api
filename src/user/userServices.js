@@ -138,7 +138,13 @@ module.exports.updateUser = (userDetails) => {
   return new Promise(function myFn(resolve, reject) {
     userModel.findOneAndUpdate(
       { email: userDetails.email },
-      { userDetails, password: encryptor.encrypt(userDetails.password) },
+      {
+        $set: {
+          password: encryptor.encrypt(userDetails.password),
+          firstname: userDetails.firstname,
+          lastname: userDetails.lastname,
+        },
+      },
       function getresult(errorvalue, result) {
         if (errorvalue) {
           reject({ status: false, msg: "Dato invalido" });
@@ -146,7 +152,7 @@ module.exports.updateUser = (userDetails) => {
           if (result != undefined && result != null) {
             console.log(result);
             var decrypted = encryptor.encrypt(result.password);
-            userModel.updateOne(
+            userModel.find(
               { email: userDetails.email },
               { password: decrypted }
             );
