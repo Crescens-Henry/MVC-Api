@@ -151,11 +151,6 @@ module.exports.updateUser = (userDetails) => {
         } else {
           if (result != undefined && result != null) {
             console.log(result);
-            var decrypted = encryptor.encrypt(result.password);
-            userModel.find(
-              { email: userDetails.email },
-              { password: decrypted }
-            );
             if (result.email == userDetails.email) {
               resolve({
                 status: true,
